@@ -36,7 +36,10 @@ pygame.display.set_caption("Little Green Men")
 #pygame.display.set_icon(icon)  
 
 #background
-background = pygame.image.load("88652_800x600.jpg")  
+background = pygame.image.load("88652_800x600.jpg") 
+
+#Game over
+game_end = 0 
 
 
 #score system
@@ -55,12 +58,13 @@ def lives_display(x,y):
 
 # Game over message
 game_over_font = pygame.font.Font('C:\Windows\Fonts\Arial.ttf',64)
+your_score_font = pygame.font.Font('C:\Windows\Fonts\Arial.ttf',32)
 
 def game_over_message():
     game_over  = game_over_font.render("GAME OVER" , True, (255, 255, 255))
-    your_score = game_over_font.render("Your Score: " + str(score_val), True, (255, 255, 255))
+    your_score = your_score_font.render("Your Score: " + str(score_val), True, (255, 255, 255))
     mywindow.blit(game_over, (200,250))
-    mywindow.blit(your_score,(200,300))
+    mywindow.blit(your_score,(280,330))
 
 #player
 player_image = pygame.image.load("spaceship.png") 
@@ -151,7 +155,7 @@ while running:
                 #print(Y_delta) #check when T_delta = 0 and multiple down presses
                 Y_delta += 2.7
             if event.key == pygame.K_SPACE: #(add mouseclick)
-                if bullet_state is 0:
+                if bullet_state is 0 and game_end is 0:
                     bullet_sound = mixer.Sound('gun+shot2.wav')
                     bullet_sound.play()
                     X_bullet = X_player
@@ -188,8 +192,7 @@ while running:
             if lives_val == 0:
                 for j in Y_enemy:
                     j = 2000
-                game_over_message()
-                break
+                game_end = 1    
                 
 
                 
@@ -211,7 +214,7 @@ while running:
             #explosion(X_enemy, Y_enemy) implement explosion
             X_enemy[i] = random.randint(0,739)
             Y_enemy[i] = random.randint(0,150)
-
+    
         enemy(X_enemy[i],Y_enemy[i],i)
 
     
@@ -224,9 +227,15 @@ while running:
         #X_bullet = X_player
         Y_bullet = Y_player
     
-    player(X_player,Y_player)
+    if game_end == 0:
+    
+        player(X_player,Y_player)
+        score_display(20,20)
+        lives_display(710,20)
+    
+    else:
+        game_over_message()
 
-    score_display(20,20)
-    lives_display(710,20)
+
 
     pygame.display.update()
