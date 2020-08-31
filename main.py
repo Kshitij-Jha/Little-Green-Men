@@ -205,7 +205,7 @@ while running:
         # For continuous downward movement: use the following here and remove this from if statement
         Y_enemy[i] += Y_delta_enemy[i]
 
-        if collision(X_enemy[i], Y_enemy[i], X_bullet, Y_bullet):
+        if collision(X_enemy[i], Y_enemy[i], X_bullet, Y_bullet) and bullet_state is 1:
             explosion_sound = mixer.Sound('explosion+7.wav')
             explosion_sound.play()
             Y_bullet = Y_player
