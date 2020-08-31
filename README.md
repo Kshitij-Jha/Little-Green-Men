@@ -1,2 +1,2 @@
 # Little-Green-Men
-Small space-invaders type game
+Simple pygame implementation of space-invaders game.
